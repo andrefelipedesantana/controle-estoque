@@ -25,6 +25,9 @@ O PharmaEstoque permite registrar produtos farmacêuticos, controlar quantidades
 *   **Tailwind CSS** 
 *   **Axios** 
 
+### 🐳 Infraestrutura
+*   **Docker & Docker Compose** (banco de dados PostgreSQL em container)
+
 ---
 
 ## 🎯 Funcionalidades Atuais
@@ -41,41 +44,61 @@ O PharmaEstoque permite registrar produtos farmacêuticos, controlar quantidades
 
 ## ⚙️ Guia de Instalação e Execução Local
 
-Para realizar a clonagem e execução do projeto em ambiente local, é necessário possuir o Node.js instalado e uma instância do PostgreSQL devidamente configurada.
+### Pré-requisitos
+
+| Ferramenta | Necessário para |
+|---|---|
+| [Node.js](https://nodejs.org/) | Rodar backend e frontend |
+| [Docker Desktop](https://www.docker.com/products/docker-desktop/) | Subir o banco de dados PostgreSQL |
+
+> O banco de dados **não** precisa estar instalado localmente — ele roda dentro de um container Docker.
+
+---
 
 **1. Clonagem do Repositório**
-Realize o clone do projeto e acesse o diretório principal:
 
 ```bash
 git clone https://github.com/SeuUsuario/controle-estoque.git
 cd controle-estoque
 ```
 
-**2. Configuração do Backend (API)**
-Acesse o diretório do servidor para instalar as dependências e configurar as variáveis de ambiente:
+**2. Subindo o Banco de Dados com Docker**
+
+Na raiz do projeto (onde está o `docker-compose.yml`), execute:
+
+```bash
+docker compose up -d
+```
+
+Isso vai baixar a imagem do PostgreSQL e iniciar o container em segundo plano. Os dados ficam salvos em um volume Docker, então não são perdidos ao parar o container.
+
+**3. Configuração do Backend (API)**
 
 ```bash
 cd backend
 npm install
 ```
 
-Crie um arquivo `.env` na raiz da pasta `backend` seguindo o modelo abaixo, inserindo as credenciais do seu banco de dados PostgreSQL:
+Crie o arquivo `.env` na pasta `backend` com o conteúdo abaixo:
 
 ```env
 PORT=3333
-DATABASE_URL="postgresql://usuario:senha@localhost:5432/nomedobanco?schema=public"
+DATABASE_URL="postgresql://postgres:741852963@localhost:5432/Farmacia?schema=public"
 JWT_SECRET="sua_chave_secreta_para_assinatura_de_tokens"
 ```
 
-Após configurar o ambiente, execute as migrações do Prisma para estruturar o banco de dados e inicie o serviço:
+> As credenciais acima já correspondem ao que foi definido no `docker-compose.yml`.
+
+Após isso, rode as migrações do Prisma para criar as tabelas no banco:
 
 ```bash
-npx prisma migrate dev --name init
+npx prisma migrate dev
 npm run dev
 ```
 
-**3. Configuração do Frontend (Interface)**
-Em um novo terminal, acesse a pasta do cliente para instalação e inicialização da interface:
+**4. Configuração do Frontend (Interface)**
+
+Em um novo terminal:
 
 ```bash
 cd frontend
@@ -83,7 +106,24 @@ npm install
 npm run dev
 ```
 
-**4. Acesso ao Sistema**
-Após a inicialização bem-sucedida, a aplicação estará disponível no endereço: `http://localhost:3000`.
+**5. Acesso ao Sistema**
 
-Recomenda-se realizar o primeiro cadastro para validar o fluxo completo de autenticação e gerenciamento de estoque.
+Após tudo iniciado, acesse: `http://localhost:3000`
+
+---
+
+## 🐳 Comandos Docker Úteis
+
+```bash
+# Subir o banco em segundo plano
+docker compose up -d
+
+# Ver se o container está rodando
+docker ps
+
+# Parar o container (dados são preservados)
+docker compose down
+
+# Parar e apagar todos os dados do banco
+docker compose down -v
+```

@@ -16,7 +16,7 @@ export const authMiddleware = (
   res: Response,
   next: NextFunction
 ) => {
-  // O token vem no header: Authorization: Bearer <token>
+
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
@@ -25,7 +25,7 @@ export const authMiddleware = (
 
   // Separa o "Bearer" do token em si
   const parts = authHeader.split(" ");
-  
+
   if (parts.length !== 2) {
     return res.status(401).json({ error: "Erro no formato do Token" });
   }
@@ -33,7 +33,7 @@ export const authMiddleware = (
   const token = parts[1] as string;
 
   try {
-    // Verifica e decodifica o token com double casting para corrigir o erro TypeScript
+
     const payload = jwt.verify(token, process.env.JWT_SECRET as string) as any as {
       userId: number;
     };

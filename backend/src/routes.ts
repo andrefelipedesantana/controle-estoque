@@ -23,7 +23,7 @@ router.post(
   (req, res) => new LoginController().handle(req, res)
 );
 
-// --- PRODUCT ROUTES (Protegidas) ---
+
 const productController = new ProductController();
 
 // Aplica o middleware de autenticação para todas as rotas abaixo
