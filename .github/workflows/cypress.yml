@@ -1,0 +1,66 @@
+name: Cypress E2E Tests
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+
+    # Definimos o banco de dados como um serviço do GitHub Actions
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: 741852963
+          POSTGRES_DB: Farmacia
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies (Root, Backend, Frontend)
+        run: |
+          npm install
+          cd backend && npm install
+          cd ../frontend && npm install
+
+      - name: Run Prisma Migrations
+        env:
+          DATABASE_URL: "postgresql://postgres:741852963@localhost:5432/Farmacia?schema=public"
+        run: |
+          cd backend
+          npx prisma migrate deploy
+
+      - name: Start Backend and Frontend, then run Cypress
+        uses: cypress-io/github-action@v6
+        with:
+          # Inicia o backend e o frontend simultaneamente usando o script do root
+          start: npm run dev
+          # Aguarda até que ambos os servidores estejam respondendo
+          wait-on: 'http://localhost:3333, http://localhost:3000'
+          wait-on-timeout: 180
+        env:
+          # Backend Env
+          PORT: 3333
+          DATABASE_URL: "postgresql://postgres:741852963@localhost:5432/Farmacia?schema=public"
+          JWT_SECRET: "farmacia_secret_jwt_2024"
+          # Frontend Env
+          NEXT_PUBLIC_API_URL: "http://localhost:3333"
