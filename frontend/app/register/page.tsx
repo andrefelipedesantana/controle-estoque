@@ -20,13 +20,13 @@ export default function Register() {
 
     try {
       await api.post("/auth/register", { name, email, password });
-      
+
       // Lojando logo depois de cadastrar para facilitar
       const response = await api.post("/auth/login", { email, password });
-      
+
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.user));
-      
+
       router.push("/dashboard");
     } catch (err: any) {
       if (err.response?.data?.details) {
@@ -56,9 +56,10 @@ export default function Register() {
         )}
 
         <form onSubmit={handleRegister} className="space-y-4">
-          <div>
+          <div >
             <label className="block text-sm font-medium text-gray-700 mb-1">Nome</label>
             <input
+              data-test="name"
               type="text"
               required
               value={name}
@@ -71,6 +72,7 @@ export default function Register() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">E-mail</label>
             <input
+              data-test="email"
               type="email"
               required
               value={email}
@@ -80,9 +82,10 @@ export default function Register() {
             />
           </div>
 
-          <div>
+          <div >
             <label className="block text-sm font-medium text-gray-700 mb-1">Senha</label>
             <input
+              data-test="password"
               type="password"
               required
               value={password}
@@ -93,7 +96,7 @@ export default function Register() {
             />
           </div>
 
-          <button
+          <button data-test="register-btn"
             type="submit"
             disabled={loading}
             className="w-full bg-blue-600 text-white rounded p-2 hover:bg-blue-700 transition-colors disabled:opacity-70 mt-2"
@@ -104,7 +107,7 @@ export default function Register() {
 
         <p className="text-sm text-center text-gray-600 mt-6">
           Já tem uma conta?{" "}
-          <Link href="/login" className="text-blue-600 hover:underline">
+          <Link data-test="login-link" href="/login" className="text-blue-600 hover:underline">
             Faça login
           </Link>
         </p>

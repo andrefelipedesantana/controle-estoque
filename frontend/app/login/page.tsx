@@ -19,12 +19,12 @@ export default function Login() {
 
     try {
       const response = await api.post("/auth/login", { email, password });
-      
+
       const { token, user } = response.data;
-      
+
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
-      
+
       router.push("/dashboard");
     } catch (err: any) {
       if (err.response?.data?.error) {
@@ -52,7 +52,7 @@ export default function Login() {
         )}
 
         <form onSubmit={handleLogin} className="space-y-4">
-          <div>
+          <div data-test="email">
             <label className="block text-sm font-medium text-gray-700 mb-1">E-mail</label>
             <input
               type="email"
@@ -64,7 +64,7 @@ export default function Login() {
             />
           </div>
 
-          <div>
+          <div data-test="password">
             <label className="block text-sm font-medium text-gray-700 mb-1">Senha</label>
             <input
               type="password"
@@ -77,6 +77,7 @@ export default function Login() {
           </div>
 
           <button
+            data-test="login-btn"
             type="submit"
             disabled={loading}
             className="w-full bg-blue-600 text-white rounded p-2 hover:bg-blue-700 transition-colors disabled:opacity-70 mt-2"
@@ -87,7 +88,7 @@ export default function Login() {
 
         <p className="text-sm text-center text-gray-600 mt-6">
           Não tem uma conta?{" "}
-          <Link href="/register" className="text-blue-600 hover:underline">
+          <Link data-test="register-link" href="/register" className="text-blue-600 hover:underline">
             Cadastre-se
           </Link>
         </p>
