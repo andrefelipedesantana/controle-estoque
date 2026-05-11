@@ -54,7 +54,7 @@ export default function EditProduct() {
       <Navbar />
       
       <main className="container mx-auto p-4 py-8 max-w-2xl">
-        <h1 className="text-2xl font-bold text-gray-800 mb-6 border-b pb-4">
+        <h1 data-test="edit-product-title" className="text-2xl font-bold text-gray-800 mb-6 border-b pb-4">
           Editar Produto
         </h1>
         
