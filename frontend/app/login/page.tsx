@@ -52,9 +52,10 @@ export default function Login() {
         )}
 
         <form onSubmit={handleLogin} className="space-y-4">
-          <div data-test="email">
+          <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">E-mail</label>
             <input
+              data-test="email"
               type="email"
               required
               value={email}
@@ -64,9 +65,10 @@ export default function Login() {
             />
           </div>
 
-          <div data-test="password">
+          <div >
             <label className="block text-sm font-medium text-gray-700 mb-1">Senha</label>
             <input
+              data-test="password"
               type="password"
               required
               value={password}
