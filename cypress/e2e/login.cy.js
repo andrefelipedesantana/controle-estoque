@@ -29,6 +29,7 @@ describe('Login-sucesso', () => {
         cy.wait(500);
 
         cy.get('[data-test="email"]').type(email);
+        cy.wait(500);
 
         cy.get('[data-test="password"]').type('senha123');
         cy.wait(500);

@@ -34,7 +34,7 @@ export default function Dashboard() {
       router.push("/login");
       return;
     }
-    
+
     fetchProducts();
   }, [router]);
 
@@ -56,11 +56,12 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
-      
+
       <main className="container mx-auto p-4 py-8">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold text-gray-800">Seu Estoque</h1>
-          <Link 
+          <Link
+            data-test="novo-produto"
             href="/products/new"
             className="bg-blue-600 text-white px-4 py-2 rounded flex items-center gap-2 hover:bg-blue-700 transition-colors shadow-sm"
           >

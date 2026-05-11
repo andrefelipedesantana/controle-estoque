@@ -16,9 +16,9 @@ interface ProductFormProps {
 
 export function ProductForm({ initialData, isEditing = false }: ProductFormProps) {
   const router = useRouter();
-  
+
   // Formatando data para o input date do HTML (YYYY-MM-DD)
-  const initialDate = initialData?.expirationDate 
+  const initialDate = initialData?.expirationDate
     ? new Date(initialData.expirationDate).toISOString().split('T')[0]
     : "";
 
@@ -74,6 +74,7 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Nome do Produto</label>
           <input
+            data-test="product-name"
             type="text"
             required
             value={name}
@@ -86,6 +87,7 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Quantidade</label>
           <input
+            data-test="product-quantity"
             type="number"
             required
             min="0"
@@ -99,6 +101,7 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Data de Validade</label>
           <input
+            data-test="product-expiration-date"
             type="date"
             required
             value={expirationDate}
@@ -109,6 +112,7 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
 
         <div className="pt-4 flex gap-3">
           <button
+            data-test="cancel-product"
             type="button"
             onClick={() => router.push("/dashboard")}
             className="px-4 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded transition-colors"
@@ -116,6 +120,7 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
             Cancelar
           </button>
           <button
+            data-test="save-product"
             type="submit"
             disabled={loading}
             className="px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded transition-colors disabled:opacity-70 flex-1"
