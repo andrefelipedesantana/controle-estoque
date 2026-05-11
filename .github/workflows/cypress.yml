@@ -47,6 +47,7 @@ jobs:
           DATABASE_URL: "postgresql://postgres:741852963@localhost:5432/Farmacia?schema=public"
         run: |
           cd backend
+          npx prisma generate
           npx prisma migrate deploy
 
       - name: Start Backend and Frontend, then run Cypress
@@ -56,10 +57,9 @@ jobs:
           start: npm run dev
           # Aguarda até que ambos os servidores estejam respondendo
           wait-on: 'http://localhost:3333, http://localhost:3000'
-          wait-on-timeout: 180
+          wait-on-timeout: 300
         env:
-          # Backend Env
-          PORT: 3333
+          # Backend Env (DATABASE_URL e JWT_SECRET são necessários)
           DATABASE_URL: "postgresql://postgres:741852963@localhost:5432/Farmacia?schema=public"
           JWT_SECRET: "farmacia_secret_jwt_2024"
           # Frontend Env
