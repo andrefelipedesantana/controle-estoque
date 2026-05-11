@@ -20,7 +20,7 @@ describe('Login', () => {
         cy.getByData('login-btn').click();
         cy.wait(500);
 
-        cy.contains('Erro ao fazer login. Tente novamente.').should('be.visible');
+        cy.contains('Email ou senha inválidos').should('be.visible');
         cy.wait(500);
     });
 
