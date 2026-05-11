@@ -56,7 +56,7 @@ jobs:
           # Inicia o backend e o frontend simultaneamente usando o script do root
           start: npm run dev
           # Aguarda até que ambos os servidores estejam respondendo
-          wait-on: 'http://localhost:3333, http://localhost:3000'
+          wait-on: 'http://localhost:3333/health, http://localhost:3000'
           wait-on-timeout: 300
         env:
           # Backend Env (DATABASE_URL e JWT_SECRET são necessários)
